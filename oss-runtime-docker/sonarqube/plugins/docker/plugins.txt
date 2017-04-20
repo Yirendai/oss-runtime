@@ -1,0 +1,74 @@
+/opt/sonarqube/extensions/plugins
+
+# see: https://github.com/SonarQubeCommunity/sonar-l10n-zh
+https://github.com/SonarQubeCommunity/sonar-l10n-zh/releases/download/sonar-l10n-zh-plugin-1.14-RC1/sonar-l10n-zh-plugin-1.14-RC1.jar
+# see: https://github.com/SonarQubeCommunity/sonar-motion-chart/releases
+http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-motion-chart-plugin/1.7/sonar-motion-chart-plugin-1.7.jar
+# see: https://github.com/SonarQubeCommunity/sonar-timeline/releases
+http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-timeline-plugin/1.5/sonar-timeline-plugin-1.5.jar
+# see: https://github.com/SonarSource/sonar-xml/releases
+http://sonarsource.bintray.com/Distribution/sonar-xml-plugin/sonar-xml-plugin-1.4.1.jar
+# see: https://github.com/stevespringett/dependency-check-sonar-plugin
+#https://github.com/stevespringett/dependency-check-sonar-plugin/releases/download/sonar-dependency-check-1.0.3/sonar-dependency-check-plugin-1.0.3.jar
+https://bintray.com/artifact/download/stevespringett/owasp/org/sonarsource/owasp/sonar-dependency-check-plugin/1.0.3/sonar-dependency-check-plugin-1.0.3.jar
+# see: https://github.com/SonarSource/sonar-scm-git
+https://sonarsource.bintray.com/Distribution/sonar-scm-git-plugin/sonar-scm-git-plugin-1.2.jar
+# see: https://github.com/AmadeusITGroup/sonar-stash
+https://github.com/AmadeusITGroup/sonar-stash/releases/download/1.2.0/sonar-stash-plugin-1.2.0.jar
+# see: https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin
+http://nexus.talanlabs.com/content/groups/public_release/com/synaptix/sonar-gitlab-plugin/1.7.0/sonar-gitlab-plugin-1.7.0.jar
+# see: https://github.com/SonarQubeCommunity/sonar-groovy
+https://github.com/SonarQubeCommunity/sonar-groovy/releases/download/1.4-RC1/sonar-groovy-plugin-1.4-build514.jar
+
+# see: https://github.com/webdizz/sonarqube-spellcheck
+#https://github.com/webdizz/sonarqube-spellcheck/releases/download/93e6738/sonarqube-spellcheck-plugin-0.1.1.RC.jar
+# see: https://github.com/davidetaibi/sonarqube-anti-patterns-code-smells
+https://github.com/davidetaibi/sonarqube-anti-patterns-code-smells/releases/download/0.1/Code_Smells-0.1.jar
+# see: https://github.com/kogitant/sonar-slack-notifier-plugin
+https://github.com/kogitant/sonar-slack-notifier-plugin/releases/download/2.0/cks-slack-notifier-2.0.jar
+
+# see: https://github.com/SonarSource/sonar-java
+https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-4.4.0.8066.jar
+# see: https://github.com/checkstyle/sonar-checkstyle
+# checkstyle:6.0 use jdk6, checkstyle:6.2 use jdk7, checkstyle:7.0 use jdk8.
+# plugin:3.4 sonarqube:5.6.4 checkstyle:7.4 java:1.8
+https://github.com/checkstyle/sonar-checkstyle/releases/download/3.4/checkstyle-sonar-plugin-3.4.jar
+# see: https://github.com/SonarQubeCommunity/sonar-pmd
+# plugin:2.0   PMD:4.3
+# plugin:2.1   PMD:4.3
+# plugin:2.2   PMD:5.1.1
+# plugin:2.3   PMD:5.2.1
+# plugin:2.4.1 PMD:5.3.1
+# plugin:2.5   PMD:5.4.0
+#https://github.com/SonarQubeCommunity/sonar-pmd/releases/download/2.4.1/sonar-pmd-plugin-2.4.1.jar
+https://github.com/SonarQubeCommunity/sonar-pmd/releases/download/2.6/sonar-pmd-plugin-2.6.jar
+# see: https://github.com/SonarQubeCommunity/sonar-findbugs
+# plugin:3.4 Findbugs:3.0.1	Findsecbugs:1.4.6 FB-Contrib:6.6.1 java:1.8
+https://github.com/SonarQubeCommunity/sonar-findbugs/releases/download/3.4.4/sonar-findbugs-plugin-3.4.4.jar
+# see: https://github.com/willemsrb/sonar-jdepend-plugin
+https://github.com/willemsrb/sonar-jdepend-plugin/releases/download/sonar-jdepend-plugin-1.0/sonar-jdepend-plugin-1.0.jar
+# see: https://github.com/racodond/sonar-jproperties-plugin
+https://github.com/racodond/sonar-jproperties-plugin/releases/download/2.4/sonar-jproperties-plugin-2.4.jar
+# see: https://github.com/SonarQubeCommunity/sonar-cobertura
+# Unable to register extension org.sonar.plugins.cobertura.CoberturaSensor from plugin
+# It seems sonarqube 6.1 does not support cobertura any more.
+#https://github.com/SonarQubeCommunity/sonar-cobertura/releases/download/1.7/sonar-cobertura-plugin-1.7.jar
+
+# see: https://github.com/SonarSource/sonar-javascript
+https://sonarsource.bintray.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-2.18.0.3454.jar
+# see: http://docs.sonarqube.org/display/PLUG/SonarWeb
+https://sonarsource.bintray.com/Distribution/sonar-web-plugin/sonar-web-plugin-2.5.0.476.jar
+# see: https://github.com/racodond/sonar-css-plugin
+https://github.com/racodond/sonar-css-plugin/releases/download/2.4/sonar-css-plugin-2.4.jar
+# see: https://github.com/racodond/sonar-json-plugin
+https://github.com/racodond/sonar-json-plugin/releases/download/2.2/sonar-json-plugin-2.2.jar
+
+# see: https://github.com/SonarQubeCommunity/sonar-erlang
+https://github.com/SonarQubeCommunity/sonar-erlang/releases/download/1.2/sonar-erlang-plugin.jar
+# see: https://github.com/SonarQubeCommunity/sonar-lua
+https://github.com/SonarQubeCommunity/sonar-lua/releases/download/v1.0/sonar-lua-plugin-1.0.jar
+# see: http://docs.sonarqube.org/display/PLUG/SonarPython
+https://sonarsource.bintray.com/Distribution/sonar-python-plugin/sonar-python-plugin-1.6.jar
+
+# see: https://github.com/stefanrinderle/softvis3d
+https://github.com/stefanrinderle/softvis3d/releases/download/softvis3d-0.6.0/sonar-softvis3d-plugin-0.6.0.jar

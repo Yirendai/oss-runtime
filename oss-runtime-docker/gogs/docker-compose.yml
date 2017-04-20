@@ -1,0 +1,51 @@
+
+# Based on Go Git Service - a self hosted Git service
+# see: https://hub.docker.com/r/gogs/gogs/
+# see: https://github.com/gogits/gogs/blob/master/Dockerfile
+# mkdir -p ${HOME}/private_git
+# docker run --name=private_git -p 20022:22 -p 20080:3000 -v ${HOME}/private_git:/data gogs/gogs:0.9.97;
+# http://local-git:20080/install
+
+# registry.docker.local/gogs:0.9.97 is same as gogs/gogs:0.9.97
+# made by `docker tag gogs/gogs:0.9.97 registry.docker.local/gogs:0.9.97; docker push registry.docker.local/gogs:0.9.97`
+
+# export key
+# docker exec local-git /app/gogs/entrypoint.sh export_git_admin_key > ~/.ssh/local-git
+
+version: '2.1'
+services:
+  git:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/gogs:0.9.97
+    restart: always
+    container_name: ${GIT_HOSTNAME:-local-git}
+    hostname: ${GIT_HOSTNAME:-local-git}
+    ports:
+    - "20022:22"
+    - "20080:3000"
+    volumes:
+    - local-git-volume:/data
+    - local-git-volume:${GIT_VOLUME:-/app/gogs/data}
+    - ../../oss-configserver/src/main/resources/deploy_key.pub:${GIT_VOLUME:-/app/gogs/data}/${GIT_HOSTNAME:-local-git}-deploy.pub
+    - ../../../:${GIT_VOLUME:-/app/gogs/data}/workspace
+    environment:
+    - GIT_VOLUME=${GIT_VOLUME:-/app/gogs/data}
+    - GIT_ADMIN_USERNAME=${GIT_ADMIN_USERNAME:-oss}
+    - GIT_ADMIN_PASSWORD=${GIT_ADMIN_PASSWORD:-oss_pass}
+    - GIT_DEPLOY_KEY=${GIT_VOLUME:-/app/gogs/data}/${GIT_HOSTNAME:-local-git}-deploy.pub
+    - GIT_HOSTNAME=${GIT_HOSTNAME:-local-git}
+    - GIT_HTTP_PORT=3000
+    - GIT_SSH_PORT=22
+    - GIT_WORKSPACE=${GIT_VOLUME:-/app/gogs/data}/workspace
+    - CONFIGSERVER_WEBHOOK_ENDPOINT=${CONFIGSERVER_WEBHOOK_ENDPOINT:-http://local-configserver:8888/monitor}
+    external_links:
+    - local-configserver:local-configserver
+volumes:
+  local-git-volume: {}
+
+networks:
+  default:
+    external:
+      name: oss-network

@@ -1,0 +1,8 @@
+
+version: '2.1'
+services:
+  alpine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/alpine:3.4

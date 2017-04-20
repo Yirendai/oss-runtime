@@ -1,0 +1,71 @@
+
+logging.level.: ${LOGGING_LEVEL_:INFO}
+logging:
+  file: ${LOGGING_FILE:yrd-turbine}.log
+  path: ${LOGGING_PATH:${user.home}/data/yrd-turbine/logs}
+  level:
+    root: ${LOGGING_LEVEL_:INFO}
+    jndi: ${LOGGING_LEVEL_:INFO}
+    org.springframework.security: ${LOGGING_LEVEL_:INFO}
+    com.netflix.discovery: 'OFF'
+    # org.springframework.integration: ${LOGGING_LEVEL_:INFO}
+
+info:
+  component: Turbine
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+turbine:
+  aggregator:
+    clusterConfig: default
+  appConfig: ${HYSTRIX_APP_NAMES}
+  clusterNameExpression: new String("default")
+
+server:
+  port: ${SERVER_PORT:8989}
+  context-path: ${SERVER_CONTEXTPATH:}
+
+management:
+  context-path: ${MANAGEMENT_CONTEXTPATH:}
+  port: ${MANAGEMENT_PORT:${server.port:${SERVER_PORT:8989}}}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://user:user_pass@local-eureka:8761/eureka/}
+  instance:
+    # eureka.instance.hostname affect Status->instances's url href (not text) value on dashboard
+    # Default hostname is: local-turbine, so in the local desktop, you need to add host: local-turbine.
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:local-turbine}
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${EUREKA_INSTANCE_NONSECUREPORT:${SERVER_PORT:8989}}
+    prefer-ip-address: ${TURBINE_INSTANCE_PREFER_IP_ADDRESS:false}
+    statusPageUrlPath: ${server.context-path:${SERVER_CONTEXTPATH:}}${management.context-path:${MANAGEMENT_CONTEXTPATH:}}${endpoints.info.path:/info}
+    healthCheckUrlPath: ${server.context-path:${SERVER_CONTEXTPATH:}}${management.context-path:${MANAGEMENT_CONTEXTPATH:}}${endpoints.health.path:/health}
+    nonSecurePort: ${EUREKA_INSTANCE_NONSECUREPORT:8989}
+    leaseRenewalIntervalInSeconds: 10
+    metadata-map:
+      management.context-path: ${server.context-path:${SERVER_CONTEXTPATH:}}${management.context-path:${MANAGEMENT_CONTEXTPATH:}}
+      management.port: ${management.port:${MANAGEMENT_PORT:${server.port:${SERVER_PORT:8989}}}}}
+
+---
+spring:
+  profiles: development.env
+
+---
+spring:
+  profiles: it.env
+
+---
+spring:
+  profiles: staging.env
+
+---
+spring:
+  profiles: production
+
+management:
+  port: -1

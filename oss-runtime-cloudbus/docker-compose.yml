@@ -1,0 +1,28 @@
+
+version: '2.1'
+services:
+  cloudbus:
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/rabbitmq:3.6.5-management
+    restart: always
+    container_name: ${SERVICES_CLOUDBUS_HOST_NAME:-local-cloudbus}
+    hostname: ${SERVICES_CLOUDBUS_HOST_NAME:-local-cloudbus}
+    ports:
+    #- "4369:4369"
+    #- "5671:5671"
+    - "5672:5672"
+    - "15672:15672"
+    #- "25672:25672"
+    environment:
+    - RABBITMQ_DEFAULT_USER=${CLOUDBUS_USER:-user}
+    - RABBITMQ_DEFAULT_PASS=${CLOUDBUS_PASS:-user_pass}
+    - RABBITMQ_HIPE_COMPILE=0
+    volumes:
+    - cloudbus-volume:/var/lib/rabbitmq
+
+volumes:
+  cloudbus-volume: {}
+
+networks:
+  default:
+    external:
+      name: oss-network

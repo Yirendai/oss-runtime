@@ -1,0 +1,48 @@
+
+# see: https://hub.docker.com/r/jenkinsci/slave/
+# see: https://github.com/jenkinsci/docker-slave
+
+# see: https://hub.docker.com/r/jenkinsci/jnlp-slave/
+# see: https://github.com/jenkinsci/docker-jnlp-slave
+
+# Create a slave in jenkins web console
+# open http://local-jenkins:18083/computer/
+# Create 'Permanent Agent' with '启动方法'='Launch agent via Java Web Start' with a '/home/jenkins/.jenkins' remote working directory.
+
+# -secret isn't visible using the API or even jenkins-cli
+# Run following 2 lines in script console to find out secret
+# for (aSlave in hudson.model.Hudson.instance.slaves)
+#  { println aSlave.name + "," + aSlave.getComputer().getJnlpMac() }
+# JENKINS_URL=http://local-jenkins:8080 <secret> <slave-name>
+
+# Create a user and sending it with -jnlpCredentials username:token to auto-provision slaves.
+# JENKINS_URL=http://local-jenkins:8080/computer/<slave-name>/slave-agent.jnlp -jnlpCredentials <username>:<token>
+
+version: '2.1'
+services:
+  jenkins-jnlp-slave:
+    build:
+      context: .
+      dockerfile: Dockerfile_jnlp_slave
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/jenkins-jnlp-slave:2.62-xenial
+    restart: always
+
+    container_name: ${JENKINS_SLAVE_HOSTNAME:-local-jenkins-jnlp-slave}
+    hostname: ${JENKINS_SLAVE_HOSTNAME:-local-jenkins-jnlp-slave}
+    external_links:
+    - local-jenkins:local-jenkins
+    - local-nexus:local-nexus
+    - local-mvnsite:local-mvnsite
+    volumes:
+    - jenkins-jnlp-slave-volume:/home/jenkins/.jenkins
+    environment:
+    #- JENKINS_URL=http://local-jenkins:8080 <secret> <slave name>
+    - JENKINS_URL=http://local-jenkins:8080/computer/slave-jnlp/slave-agent.jnlp -jnlpCredentials swarm:7baf308217a0e202bc6e6a1b5c27ce71
+
+volumes:
+  jenkins-jnlp-slave-volume: {}
+
+networks:
+  default:
+    external:
+      name: oss-network

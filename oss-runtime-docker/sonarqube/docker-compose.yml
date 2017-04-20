@@ -1,0 +1,74 @@
+
+# see: https://hub.docker.com/_/sonarqube/
+# see: https://github.com/SonarSource/docker-sonarqube/blob/master/recipes.md
+# http://admin:admin@local-sonarqube:9000
+
+# see: http://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Maven
+# Embedded H2 database
+# mvn sonar:sonar -Dsonar.host.url=http://local-sonarqube:9000 -Dsonar.jdbc.url="jdbc:h2:tcp://local-sonarqube/sonar"
+# local-postgresql or linked mysql database
+# mvn sonar:sonar -Dsonar.host.url=http://local-sonarqube:9000
+
+version: '2.1'
+services:
+  # data container provide plugins
+  sonarqube-plugins:
+    build: plugins
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/sonarqube-plugins:6.2-alpine
+    container_name: ${SONARCUBE_HOSTNAME:-local-sonarqube}-plugins
+    restart: never
+  sonarqube:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/sonarqube:6.2-alpine
+    restart: always
+    container_name: ${SONARCUBE_HOSTNAME:-local-sonarqube}
+    hostname: ${SONARCUBE_HOSTNAME:-local-sonarqube}
+    ports:
+    - "9000:9000"
+    #- "9092:9092"
+    volumes:
+    #- sonarqube_conf:/opt/sonarqube/conf
+    - sonarqube_data:/opt/sonarqube/data
+    #- sonarqube_extensions:/opt/sonarqube/extensions
+    #- sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+    volumes_from:
+    - sonarqube-plugins
+    environment:
+    # local-postgresql
+    - SONARQUBE_JDBC_URL=jdbc:postgresql://local-postgresql:5432/sonar
+    - SONARQUBE_JDBC_USERNAME=${SONARQUBE_JDBC_USERNAME:-sonar}
+    - SONARQUBE_JDBC_PASSWORD=${SONARQUBE_JDBC_PASSWORD:-sonar}
+    # linked mysql
+#    - SONARQUBE_JDBC_URL=jdbc:mysql://sonarqube-linked-db:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&createDatabaseIfNotExist=true
+#    - SONARQUBE_JDBC_USERNAME=${SONARQUBE_JDBC_USERNAME:-root}
+#    - SONARQUBE_JDBC_PASSWORD=${SONARQUBE_JDBC_PASSWORD:-root}
+#    links:
+#    - sonarqube-linked-db:sonarqube-linked-db
+    external_links:
+    - local-postgresql:local-postgresql
+#  sonarqube-linked-db:
+#    build:
+#      context: ../mysql
+#      dockerfile: Dockerfile_5_7_17
+#    image: ${DOCKER_REGISTRY:-registry.docker.local}/mysql:5.7.17
+#    restart: always
+#    command: [--character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
+#    container_name: ${SONARCUBE_HOSTNAME:-local-sonarqube}-linked-db
+#    volumes:
+#    - sonarqube_linked_db:/var/lib/mysql
+#    environment:
+#    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+
+volumes:
+#  sonarqube_linked_db:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_bundled-plugins:
+
+networks:
+  default:
+    external:
+      name: oss-network

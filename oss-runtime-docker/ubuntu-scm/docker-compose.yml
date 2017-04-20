@@ -1,0 +1,11 @@
+# docker-compose build
+# export: docker save registry.docker.local/oss-ubuntu:16.04 > ${HOME}/Desktop/oss-ubuntu.tar
+version: '2.1'
+services:
+  ubuntu-scm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - build_fileserver=${BUILD_FILESERVER:-http://local-fileserver}
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/ubuntu-scm:16.04

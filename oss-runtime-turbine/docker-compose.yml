@@ -1,0 +1,23 @@
+version: '2.1'
+services:
+  yrd-turbine:
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/yrd-turbine:${PROJECT_VERSION:-latest}
+    command: start
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:-local-turbine}
+    container_name: ${EUREKA_INSTANCE_HOSTNAME:-local-turbine}
+    ports:
+    - "${EUREKA_INSTANCE_NONSECUREPORT:-8989}:${SERVER_PORT:-8989}"
+    environment:
+    - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:-http://user:user_pass@local-eureka:8761/eureka/}
+    - EUREKA_INSTANCE_HOSTNAME=${EUREKA_INSTANCE_HOSTNAME:-local-turbine}
+    - EUREKA_INSTANCE_NONSECUREPORT=${EUREKA_INSTANCE_NONSECUREPORT:-8989}
+    - HYSTRIX_APP_NAMES=${HYSTRIX_APP_NAMES:-YRD-TODOMVC-APP}
+    - SERVER_PORT=${SERVER_PORT:-8989}
+    - SPRING_PROFILES_ACTIVE=${ENV:-development}.env
+    external_links:
+    - ${LOCAL_EUREKA_STANDALONE:-local-eureka}:local-eureka
+
+networks:
+  default:
+    external:
+      name: yrd-oss-network
